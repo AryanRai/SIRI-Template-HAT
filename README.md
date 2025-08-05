@@ -95,7 +95,7 @@ TemplateHAT/
 
 ### Hardware Layer
 - **Schematic Design**: KiCad-based PCB design with standard 40-pin HAT connector
-- **Component Selection**: Standardized components (TJA1050 CAN transceiver, etc.)
+- **Component Selection**: Standardized components (TJA1050 CAN transceiver for Teensy, SN65HVD230 for Jetson, etc.)
 - **Power Management**: 5V/3.3V power distribution and monitoring
 - **Status Indicators**: LEDs for state indication and debugging
 
