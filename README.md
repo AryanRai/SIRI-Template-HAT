@@ -19,73 +19,44 @@ This template serves as:
 TemplateHAT/
 ├── README.md                 # This documentation
 ├── LICENSE                   # MIT License
-├── hardware/                 # PCB design files
+├── firmware/                 # Arduino IDE firmware
+│   └── TemplateHAT_Firmware/ # Arduino sketch folder
+│       ├── TemplateHAT_Firmware.ino # Main Arduino sketch
+│       ├── README.md         # Arduino-specific documentation
+│       ├── include/          # Header files
+│       │   ├── hat_config.h  # HAT configuration
+│       │   ├── can_protocol.h # CAN message definitions
+│       │   ├── state_machine.h # State machine interface
+│       │   ├── hardware_map.h # Pin and address mappings
+│       │   ├── can_interface.h # CAN interface declarations
+│       │   ├── component_ctrl.h # Component controller
+│       │   └── telemetry.h   # Telemetry manager
+│       └── src/              # Source files
+│           ├── can_interface.cpp # CAN implementation
+│           ├── state_machine.cpp # State machine implementation
+│           ├── component_ctrl.cpp # Component control
+│           ├── telemetry.cpp # Telemetry implementation
+│           └── can_protocol.cpp # CAN utility functions
+├── docs/                     # Documentation
+│   ├── design_specs.md       # Design specifications
+│   └── api_reference.md      # API documentation
+├── hardware/                 # PCB design files (future)
 │   ├── schematic/           # KiCad schematic files
-│   │   ├── template_hat.kicad_sch
-│   │   └── template_hat.kicad_pro
 │   ├── pcb/                 # PCB layout files
-│   │   ├── template_hat.kicad_pcb
-│   │   └── gerbers/         # Manufacturing files
 │   ├── 3d_models/           # 3D component models
 │   └── bom/                 # Bill of Materials
-│       ├── template_hat_bom.csv
-│       └── component_specs.md
-├── firmware/                # Microcontroller code
-│   ├── src/                 # Source code
-│   │   ├── main.cpp         # Main application
-│   │   ├── can_interface.cpp # CAN network handler
-│   │   ├── state_machine.cpp # HAT state machine
-│   │   ├── component_ctrl.cpp # Hardware control
-│   │   └── telemetry.cpp    # Data reporting
-│   ├── include/             # Header files
-│   │   ├── hat_config.h     # HAT-specific configuration
-│   │   ├── can_protocol.h   # CAN message definitions
-│   │   ├── state_machine.h  # State machine interface
-│   │   └── hardware_map.h   # Pin and address mappings
-│   ├── lib/                 # External libraries
-│   │   ├── SIRI_CAN/        # SIRI CAN protocol library
-│   │   └── StateMachine/    # State machine library
-│   ├── test/                # Unit tests
-│   │   ├── test_can.cpp     # CAN interface tests
-│   │   ├── test_states.cpp  # State machine tests
-│   │   └── test_hardware.cpp # Hardware tests
-│   ├── platformio.ini       # PlatformIO configuration
-│   └── CMakeLists.txt       # CMake build configuration
-├── software/                # High-level software integration
+├── software/                 # High-level software integration (future)
 │   ├── ros2/                # ROS2 integration
-│   │   ├── package.xml      # ROS2 package definition
-│   │   ├── setup.py         # Python package setup
-│   │   └── template_hat/    # ROS2 node implementation
-│   │       ├── __init__.py
-│   │       ├── hat_node.py  # Main ROS2 node
-│   │       └── hat_interface.py # HAT communication
 │   └── python/              # Python utilities
-│       ├── hat_simulator.py # HAT simulation for testing
-│       ├── can_monitor.py   # CAN network monitoring
-│       └── config_tool.py   # Configuration utility
-├── docs/                    # Documentation
-│   ├── design_specs.md      # Design specifications
-│   ├── api_reference.md     # API documentation
-│   ├── testing_guide.md     # Testing procedures
-│   ├── assembly_guide.md    # Hardware assembly
-│   └── troubleshooting.md   # Common issues and solutions
-├── testing/                 # Testing and validation
+├── testing/                  # Testing and validation (future)
 │   ├── hardware_tests/      # Hardware validation
-│   │   ├── power_test.py    # Power consumption tests
-│   │   ├── can_test.py      # CAN interface tests
-│   │   └── component_test.py # Component functionality
 │   ├── integration_tests/   # System integration
-│   │   ├── state_machine_test.py # State transitions
-│   │   ├── network_test.py  # CAN network integration
-│   │   └── mission_test.py  # Mission scenario tests
 │   └── simulation/          # Virtual testing
-│       ├── hat_model.py     # HAT simulation model
-│       └── test_scenarios.py # Test case definitions
-├── examples/                # Usage examples
+├── examples/                 # Usage examples (future)
 │   ├── basic_hat/           # Minimal HAT implementation
 │   ├── sensor_hat/          # Sensor-based HAT example
 │   └── actuator_hat/        # Actuator control example
-└── tools/                   # Development tools
+└── tools/                    # Development tools (future)
     ├── address_generator.py # CAN address assignment
     ├── config_validator.py  # Configuration validation
     └── deployment_script.sh # Automated deployment
@@ -99,8 +70,9 @@ TemplateHAT/
 - **Power Management**: 5V/3.3V power distribution and monitoring
 - **Status Indicators**: LEDs for state indication and debugging
 
-### Firmware Layer
-- **CAN Interface**: Implementation of SIRI CAN protocol
+### Firmware Layer (Arduino IDE)
+- **Main Sketch**: TemplateHAT_Firmware.ino with setup() and loop()
+- **CAN Interface**: Implementation of SIRI CAN protocol using FlexCAN_T4
 - **State Machine**: Standardized safety states (POWER_OFF, IDLE, ARMED, etc.)
 - **Component Control**: Abstract interface for HAT-specific hardware
 - **Telemetry System**: Periodic status and sensor data reporting
@@ -128,14 +100,17 @@ TemplateHAT/
 - Update PCB layout maintaining standard connector
 - Generate BOM and manufacturing files
 
-### 3. Firmware Development
-- Implement HAT-specific component control
+### 3. Arduino Firmware Development
+- Open TemplateHAT_Firmware.ino in Arduino IDE
+- Install required libraries (FlexCAN_T4, ArduinoJson)
+- Implement HAT-specific component control in .ino tabs
 - Customize state machine behavior
 - Add telemetry for HAT sensors/actuators
 
 ### 4. Integration Testing
+- Upload firmware to Teensy 4.1
 - Test CAN network communication
-- Validate state machine transitions
+- Validate state machine transitions using serial monitor
 - Verify mission scenario compatibility
 
 ### 5. Documentation
@@ -147,7 +122,7 @@ TemplateHAT/
 
 ### Prerequisites
 - KiCad 7.0+ for hardware design
-- PlatformIO or Arduino IDE for firmware
+- Arduino IDE with Teensyduino for firmware development
 - Python 3.8+ for software tools
 - ROS2 Humble for system integration
 
@@ -163,10 +138,12 @@ TemplateHAT/
    - Update CAN addresses in `firmware/include/hardware_map.h`
    - Modify component definitions as needed
 
-3. **Build firmware**:
+3. **Open firmware in Arduino IDE**:
    ```bash
-   cd firmware
-   platformio run
+   # Open TemplateHAT_Firmware.ino in Arduino IDE
+   # Install required libraries: FlexCAN_T4, ArduinoJson
+   # Select Board: Teensy 4.1
+   # Upload to hardware
    ```
 
 4. **Run tests**:
