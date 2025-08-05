@@ -65,7 +65,7 @@ TemplateHAT/
 ## Key Components
 
 ### Hardware Layer
-- **Schematic Design**: KiCad-based PCB design with standard 40-pin HAT connector
+- **Schematic Design**: KiCad-based PCB design with standard VGA HAT connector
 - **Component Selection**: Standardized components (TJA1050 CAN transceiver for Teensy, SN65HVD230 for Jetson, etc.)
 - **Power Management**: 5V/3.3V power distribution and monitoring
 - **Status Indicators**: LEDs for state indication and debugging
@@ -157,7 +157,7 @@ TemplateHAT/
 This template ensures compliance with:
 - **SIRI-Elec CAN Protocol**: Message formats and addressing
 - **State Machine Requirements**: Safety states and transitions
-- **Hardware Interface**: 40-pin connector and power specifications
+- **Hardware Interface**: VGA connector and power specifications
 - **Documentation Standards**: Consistent documentation format
 
 ## Support
