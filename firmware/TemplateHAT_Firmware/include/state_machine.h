@@ -13,10 +13,10 @@
 // HAT State Definitions
 typedef enum {
     STATE_POWER_OFF = 0,
-    STATE_DISARMED = 1,
-    STATE_UNLOCKED = 2,
-    STATE_POWER_ARMED = 3,
-    STATE_LOCKED = 4,
+    STATE_DISARMED = 1,      // Initial state after boot
+    STATE_LOCKED = 2,        // Default operational state
+    STATE_UNLOCKED = 3,
+    STATE_POWER_ARMED = 4,
     STATE_EMERGENCY_STOP = 5
 } HAT_State_t;
 

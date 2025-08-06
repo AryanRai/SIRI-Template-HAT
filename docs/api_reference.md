@@ -151,12 +151,11 @@ typedef struct {
 ```cpp
 typedef enum {
     STATE_POWER_OFF = 0,
-    STATE_POWER_IDLE = 1,
-    STATE_DISARMED = 2,
+    STATE_DISARMED = 1,      // Initial state after boot
+    STATE_LOCKED = 2,        // Default operational state
     STATE_UNLOCKED = 3,
     STATE_POWER_ARMED = 4,
-    STATE_LOCKED = 5,
-    STATE_EMERGENCY_STOP = 6
+    STATE_EMERGENCY_STOP = 5
 } HAT_State_t;
 ```
 
