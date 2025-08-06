@@ -192,17 +192,13 @@ void updateStatusLEDs() {
         case STATE_POWER_OFF:
             digitalWrite(PIN_LED_STATUS, LOW);
             break;
-        case STATE_POWER_IDLE:
-            // Slow blink
+        case STATE_DISARMED:
+            // Slow blink - default state, waiting for Jetson pings
             digitalWrite(PIN_LED_STATUS, (millis() / 1000) % 2);
             break;
-        case STATE_DISARMED:
+        case STATE_UNLOCKED:
             // Fast blink
             digitalWrite(PIN_LED_STATUS, (millis() / 250) % 2);
-            break;
-        case STATE_UNLOCKED:
-            // Double blink
-            digitalWrite(PIN_LED_STATUS, ((millis() / 100) % 4) < 2);
             break;
         case STATE_POWER_ARMED:
             digitalWrite(PIN_LED_STATUS, HIGH);

@@ -13,12 +13,11 @@
 // HAT State Definitions
 typedef enum {
     STATE_POWER_OFF = 0,
-    STATE_POWER_IDLE = 1,
-    STATE_DISARMED = 2,
-    STATE_UNLOCKED = 3,
-    STATE_POWER_ARMED = 4,
-    STATE_LOCKED = 5,
-    STATE_EMERGENCY_STOP = 6
+    STATE_DISARMED = 1,
+    STATE_UNLOCKED = 2,
+    STATE_POWER_ARMED = 3,
+    STATE_LOCKED = 4,
+    STATE_EMERGENCY_STOP = 5
 } HAT_State_t;
 
 // Authority Levels

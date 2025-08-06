@@ -23,7 +23,7 @@ bool HATStateMachine::initialize() {
 
 HAT_State_t HATStateMachine::getCurrentState() {
     // Get current state
-    return STATE_POWER_OFF; // Placeholder
+    return STATE_DISARMED; // Default state after boot
 }
 
 bool HATStateMachine::transitionToState(HAT_State_t newState, Authority_t authority) {
