@@ -200,7 +200,7 @@ if (millis() - lastTemp >= 200) {     // ~10 Hz
     #endif
   }
 }
-// --- Helper: check MFRC522 is online (reads VersionReg) ---
+
 
 // ---- RFID POLL (10 Hz), non-blocking, no early returns ----
 static uint32_t lastRFID = 0;

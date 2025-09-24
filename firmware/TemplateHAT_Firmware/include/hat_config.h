@@ -22,6 +22,13 @@
 #define HAT_POWER_VOLTAGE_5V 5.0f
 #define HAT_POWER_VOLTAGE_3V3 3.3f
 
+
+#define HAT_ADC_VREF        3.3f        // Teensy’s ADC reference (3.3 V rail)
+#define HAT_THERM_R_FIXED   10000.0f    // the fixed resistor in the divider (10 kΩ)
+#define HAT_THERM_R0        10000.0f    // NTC resistance at 25°C (your NTC is 10 kΩ)
+#define HAT_THERM_BETA      3950.0f     // thermistor β constant (common value for 10k NTCs)
+
+
 // Component Configuration
 #define HAT_MAX_COMPONENTS 16
 #define HAT_COMPONENT_BASE_ADDR (HAT_BASE_ADDRESS + 0x10)

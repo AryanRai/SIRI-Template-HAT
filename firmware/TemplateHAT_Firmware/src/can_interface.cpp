@@ -34,8 +34,11 @@ bool CANInterface::initialize() {
     // Initialize FlexCAN_T4 for SN65HVD230
     can1.begin();
     can1.setBaudRate(CAN_BAUDRATE);
+    can1.setTX((FLEXCAN_PINS)PIN_CAN_TX);   // <-- add this (e.g., 23)
+    can1.setRX((FLEXCAN_PINS)PIN_CAN_RX);
     can1.setMaxMB(16);  // Set maximum mailboxes
-    can1.enableFIFO();  // Enable FIFO for better message handling
+    can1.enableFIFO();
+    can1.enableLoopBack();  // Enable FIFO for better message handling
     can1.enableFIFOInterrupt();
     
     // Setup CAN message filters

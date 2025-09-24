@@ -5,15 +5,13 @@
  * @date 2025
  */
 
-#hi
-
-
 #ifndef CAN_INTERFACE_H
 #define CAN_INTERFACE_H
 
 #include <stdint.h>
 #include "can_protocol.h"
 #include "state_machine.h"
+
 
 // Forward declarations
 struct TelemetryData_t;

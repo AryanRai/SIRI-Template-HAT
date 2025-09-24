@@ -86,7 +86,15 @@ typedef struct {
 } CANMessage_t;
 
 // Function prototypes
-uint32_t buildCANID(uint8_t priority, uint8_t sourceID, uint8_t targetID, uint8_t msgType);
-void parseCANID(uint32_t canID, uint8_t* priority, uint8_t* sourceID, uint8_t* targetID, uint8_t* msgType);
+static inline uint32_t buildCANID(uint8_t pr, uint8_t src, uint8_t dst, uint8_t type){
+  return (((uint32_t)(pr & 0x1F) << 24) | ((uint32_t)src << 16) | ((uint32_t)dst << 8) | type);
+}
+static inline void parseCANID(uint32_t id, uint8_t* pr, uint8_t* src, uint8_t* dst, uint8_t* type){
+  if(pr)  *pr  = (id >> 24) & 0x1F;
+  if(src) *src = (id >> 16) & 0xFF;
+  if(dst) *dst = (id >> 8)  & 0xFF;
+  if(type) *type= id & 0xFF;
+}
+
 
 #endif // CAN_PROTOCOL_H
