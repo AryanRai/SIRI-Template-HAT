@@ -119,7 +119,7 @@ void setup() {
     Serial.println("ERROR: RC522 not detected (check 3V3/SCK/MOSI/MISO/CS/RST wiring).");
     digitalWrite(PIN_LED_ERROR, HIGH);
   }
-  // rfid.PCD_DumpVersionToSerial(); // optional verbose
+
 #endif
     #if HAT_DEBUG_ENABLED
       Serial.println("MFRC522 ready");
