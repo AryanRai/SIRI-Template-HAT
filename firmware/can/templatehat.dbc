@@ -1,0 +1,94 @@
+VERSION "TemplateHAT DBC v1"
+
+NS_ :
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+    BO_TX_BU_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BU_SG_REL_
+    BU_EV_REL_
+    BU_BO_REL_
+    SG_MUL_VAL_
+
+BS_:
+
+BU_: TEMPLATEHAT
+
+# IDs use extended 29-bit. Values here are decimal: 0x0707FFMM = 1179645MM
+
+BO_ 117964579 TEMPLATE_Heartbeat: 4 TEMPLATEHAT
+ SG_ node_id : 0|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ alive   : 8|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ ts_hi   : 16|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ ts_lo   : 24|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+
+BO_ 117964576 TEMPLATE_Temp: 2 TEMPLATEHAT
+ SG_ temp_degC : 0|16@1- (0.01,0) [-327.68|327.67] "degC" TEMPLATEHAT
+
+BO_ 117964586 TEMPLATE_IMU_Euler: 6 TEMPLATEHAT
+ SG_ yaw_deg   : 0|16@1- (0.01,0) [-327.68|327.67] "deg" TEMPLATEHAT
+ SG_ pitch_deg : 16|16@1- (0.01,0) [-327.68|327.67] "deg" TEMPLATEHAT
+ SG_ roll_deg  : 32|16@1- (0.01,0) [-327.68|327.67] "deg" TEMPLATEHAT
+
+BO_ 117964581 TEMPLATE_IMU_Accel: 6 TEMPLATEHAT
+ SG_ ax_ms2 : 0|16@1- (0.001,0) [-65.536|65.535] "m/s^2" TEMPLATEHAT
+ SG_ ay_ms2 : 16|16@1- (0.001,0) [-65.536|65.535] "m/s^2" TEMPLATEHAT
+ SG_ az_ms2 : 32|16@1- (0.001,0) [-65.536|65.535] "m/s^2" TEMPLATEHAT
+
+BO_ 117964582 TEMPLATE_IMU_Gyro: 6 TEMPLATEHAT
+ SG_ gx_rads : 0|16@1- (0.001,0) [-65.536|65.535] "rad/s" TEMPLATEHAT
+ SG_ gy_rads : 16|16@1- (0.001,0) [-65.536|65.535] "rad/s" TEMPLATEHAT
+ SG_ gz_rads : 32|16@1- (0.001,0) [-65.536|65.535] "rad/s" TEMPLATEHAT
+
+BO_ 117964583 TEMPLATE_IMU_LinAcc: 6 TEMPLATEHAT
+ SG_ lax_ms2 : 0|16@1- (0.001,0) [-65.536|65.535] "m/s^2" TEMPLATEHAT
+ SG_ lay_ms2 : 16|16@1- (0.001,0) [-65.536|65.535] "m/s^2" TEMPLATEHAT
+ SG_ laz_ms2 : 32|16@1- (0.001,0) [-65.536|65.535] "m/s^2" TEMPLATEHAT
+
+BO_ 117964587 TEMPLATE_IMU_Calib: 4 TEMPLATEHAT
+ SG_ calib_sys   : 0|8@1+ (1,0) [0|3] "" TEMPLATEHAT
+ SG_ calib_gyro  : 8|8@1+ (1,0) [0|3] "" TEMPLATEHAT
+ SG_ calib_accel : 16|8@1+ (1,0) [0|3] "" TEMPLATEHAT
+ SG_ calib_mag   : 24|8@1+ (1,0) [0|3] "" TEMPLATEHAT
+
+BO_ 117964580 TEMPLATE_RFID: 8 TEMPLATEHAT
+ SG_ uid_b0 : 0|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ uid_b1 : 8|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ uid_b2 : 16|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ uid_b3 : 24|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ uid_b4 : 32|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ uid_b5 : 40|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ uid_b6 : 48|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+ SG_ uid_b7 : 56|8@1+ (1,0) [0|255] "" TEMPLATEHAT
+
+BA_DEF_  "VFrameFormat" BO_ 1;
+BA_ "VFrameFormat" BO_ 117964579 1;
+BA_ "VFrameFormat" BO_ 117964576 1;
+BA_ "VFrameFormat" BO_ 117964586 1;
+BA_ "VFrameFormat" BO_ 117964581 1;
+BA_ "VFrameFormat" BO_ 117964582 1;
+BA_ "VFrameFormat" BO_ 117964583 1;
+BA_ "VFrameFormat" BO_ 117964587 1;
+BA_ "VFrameFormat" BO_ 117964580 1;
+
+
