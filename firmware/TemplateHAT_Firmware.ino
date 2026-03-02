@@ -197,72 +197,7 @@ if (millis() - lastTemp >= 200) {     // ~10 Hz
 // --- Helper: check MFRC522 is online (reads VersionReg) ---
 
 // ---- RFID POLL (10 Hz), non-blocking, no early returns ----
-static uint32_t lastRFID = 0;
-static uint8_t  failStreak = 0;
-static bool     printedReady = false;
 
-if (millis() - lastRFID >= 100) {        // ~10 Hz
-  lastRFID = millis();
-
-  bool gotCard = false;
-
-  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
-    gotCard = true;
-    failStreak = 0;
-    printedReady = false;
-
-    // (A) Print UID (debug)
-    #if HAT_DEBUG_ENABLED
-      Serial.print("Card detected. UID:");
-      for (uint8_t i = 0; i < rfid.uid.size; i++) {
-        Serial.print(' ');
-        if (rfid.uid.uidByte[i] < 0x10) Serial.print('0');
-        Serial.print(rfid.uid.uidByte[i], HEX);
-      }
-      Serial.println();
-    #endif
-
-    // (B) Send UID over CAN
-    uint8_t n = rfid.uid.size; if (n > 8) n = 8;
-    CANMessage_t out{};
-    out.id = buildCANID(CAN_PRIORITY_TEMPLATE, HAT_NODE_ID,
-                        CAN_BROADCAST_ADDR, MSG_TYPE_TELEMETRY_RFID);
-    out.length = n;
-    for (uint8_t i = 0; i < n; ++i) out.data[i] = rfid.uid.uidByte[i];
-    canInterface.sendMessage(out);
-
-    digitalWrite(PIN_LED_COMM, HIGH); delay(8); digitalWrite(PIN_LED_COMM, LOW);
-
-    // (C) End session cleanly
-    rfid.PICC_HaltA();
-    rfid.PCD_StopCrypto1();
-  }
-
-  if (!gotCard) {
-    // Only print once until something happens
-    if (!printedReady) {
-      Serial.println("Ready to tap card...");
-      printedReady = true;
-    }
-
-    // If we *thought* a card was present but failed to read a few times, self-heal
-    if (rfid.PICC_IsNewCardPresent()) {
-      if (++failStreak >= 4) {
-        failStreak = 0;
-        rfid.PCD_Reset();
-        rfid.PCD_Init();
-        rfid.PCD_AntennaOn();
-        rfid.PCD_SetAntennaGain(rfid.RxGain_max);
-        #if HAT_DEBUG_ENABLED
-          Serial.println("RFID: reinitialized after read failures");
-        #endif
-      }
-    } else {
-      failStreak = 0; // idle = clean streak
-    }
-  }
-}
-// ---- END RFID POLL ----
 // ---- bno BLOCK (BNO055): YPR + raw accel/gyro + linacc @ ~50 Hz ----
 static uint32_t lastIMU = 0;
 if (millis() - lastIMU >= 200) {   
