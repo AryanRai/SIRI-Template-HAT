@@ -20,7 +20,7 @@
 #include "include/can_interface.h"
 #include "include/component_ctrl.h"
 #include <FlexCAN_T4.h>
-
+#include "include/sirius_can_id_map.h"
 #include <SPI.h>
 #include <MFRC522.h>
 #include <math.h>  // for logf
@@ -102,22 +102,9 @@ void setup() {
     pinMode(HAT_SPI_CS, OUTPUT);
     digitalWrite(HAT_SPI_CS, HIGH);  // deselect MFRC522
 
-    SPI.begin();
-    rfid.PCD_Init();
-    rfid.PCD_AntennaOn();
-    rfid.PCD_SetAntennaGain(rfid.RxGain_max);
-    #if HAT_DEBUG_ENABLED
-  byte v = rfid.PCD_ReadRegister(MFRC522::VersionReg);
-  Serial.print("RC522 VersionReg: 0x"); Serial.println(v, HEX);
-  if (v == 0x00 || v == 0xFF) {
-    Serial.println("ERROR: RC522 not detected (check 3V3/SCK/MOSI/MISO/CS/RST wiring).");
-    digitalWrite(PIN_LED_ERROR, HIGH);
-  }
+    
   // rfid.PCD_DumpVersionToSerial(); // optional verbose
-#endif
-    #if HAT_DEBUG_ENABLED
-      Serial.println("MFRC522 ready");
-    #endif
+
     delay(1000);
 
     #if HAT_DEBUG_ENABLED
@@ -217,8 +204,7 @@ if (millis() - lastIMU >= 200) {
     int16_t roll_x100  = (int16_t)roundf(roll_deg  * SCALE_EULER);
 
     CANMessage_t out{};
-    out.id = buildCANID(CAN_PRIORITY_TEMPLATE, HAT_NODE_ID,
-                        CAN_BROADCAST_ADDR, MSG_TYPE_TELEMETRY_IMU_EULER); // 0x21
+    out.id = ID_IMU_EULER; // 0x21
     out.length = 6;
     pack_i16(yaw_x100,   &out.data[0]);
     pack_i16(pitch_x100, &out.data[2]);
@@ -234,8 +220,7 @@ if (millis() - lastIMU >= 200) {
   // 2) Raw accelerometer (m/s^2) 
   {
     imu::Vector<3> a = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
-    uint32_t id = buildCANID(CAN_PRIORITY_TEMPLATE, HAT_NODE_ID,
-                             CAN_BROADCAST_ADDR, MSG_TYPE_TELEMETRY_IMU_ACCEL); // 0x25
+    uint32_t id = ID_IMU_ACCEL; // 0x25
     send_vec3_as_i16(canInterface, id, a.x(), a.y(), a.z(), SCALE_ACCEL);
     #if HAT_DEBUG_ENABLED
       Serial.printf("IMU Acc (m/s^2): %.3f %.3f %.3f\n", a.x(), a.y(), a.z());
@@ -245,8 +230,7 @@ if (millis() - lastIMU >= 200) {
   // 3) Raw gyroscope (rad/s) 
   {
     imu::Vector<3> g = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    uint32_t id = buildCANID(CAN_PRIORITY_TEMPLATE, HAT_NODE_ID,
-                             CAN_BROADCAST_ADDR, MSG_TYPE_TELEMETRY_IMU_GYRO); // 0x26
+    uint32_t id = ID_IMU_GYRO; // 0x26
     send_vec3_as_i16(canInterface, id, g.x(), g.y(), g.z(), SCALE_GYRO);
     #if HAT_DEBUG_ENABLED
       Serial.printf("IMU Gyro (rad/s): %.3f %.3f %.3f\n", g.x(), g.y(), g.z());
@@ -256,8 +240,7 @@ if (millis() - lastIMU >= 200) {
   // 4) Linear acceleration (m/s^2, gravity removed) 
   {
     imu::Vector<3> la = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-    uint32_t id = buildCANID(CAN_PRIORITY_TEMPLATE, HAT_NODE_ID,
-                             CAN_BROADCAST_ADDR, MSG_TYPE_TELEMETRY_IMU_LINACC); // 0x27
+    uint32_t id = ID_IMU_LINACC; // 0x27
     send_vec3_as_i16(canInterface, id, la.x(), la.y(), la.z(), SCALE_LINACC);
     #if HAT_DEBUG_ENABLED
       Serial.printf("IMU LinAcc (m/s^2): %.3f %.3f %.3f\n", la.x(), la.y(), la.z());
@@ -271,8 +254,7 @@ if (millis() - lastCal >= 500) {   // 2 Hz
   bno.getCalibration(&sys, &gyro, &accel, &mag);
 
   CANMessage_t cal{};
-  cal.id = buildCANID(CAN_PRIORITY_TEMPLATE, HAT_NODE_ID,
-                      CAN_BROADCAST_ADDR, MSG_TYPE_TELEMETRY_IMU_CALIB); // 0x23 (already defined)
+  cal.id =ID_IMU_CALIB; // 0x23 (already defined)
   cal.length = 4;
   cal.data[0] = sys; cal.data[1] = gyro; cal.data[2] = accel; cal.data[3] = mag;
   canInterface.sendMessage(cal);
