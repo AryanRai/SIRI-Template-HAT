@@ -201,17 +201,13 @@ void CANInterface::processMessages() {
 }
 
 bool CANInterface::sendHeartbeat() {
-    CANMessage_t message;
-    
-    // Build heartbeat message
-    message.id = buildCANID(CAN_PRIORITY_TEMPLATE, HAT_NODE_ID, CAN_BROADCAST_ADDR, MSG_TYPE_HEARTBEAT);
+    CANMessage_t message{};
+    message.id = ID_HEARTBEAT;     // NEW
     message.length = 4;
     message.data[0] = HAT_NODE_ID;
-    message.data[1] = 0x01; // Status: alive
-    message.data[2] = (millis() >> 8) & 0xFF;  // Timestamp high byte
-    message.data[3] = millis() & 0xFF;         // Timestamp low byte
-    
-    lastHeartbeatTime = millis();
+    message.data[1] = 0x01;        // alive
+    message.data[2] = (millis() >> 8) & 0xFF;
+    message.data[3] = millis() & 0xFF;
     return sendMessage(message);
 }
 
@@ -272,22 +268,8 @@ void CANInterface::handleControlMessage(const CANMessage_t& message) {
     #endif
     
     // Extract message type
-    uint8_t priority, sourceID, targetID, msgType;
-    parseCANID(message.id, &priority, &sourceID, &targetID, &msgType);
-    
-    // Process control commands
-    switch (msgType) {
-        case MSG_TYPE_CONTROL_START:
-            // Handle start command
-            break;
-        case MSG_TYPE_CONTROL_STOP:
-            // Handle stop command
-            break;
-        case MSG_TYPE_CONTROL_RESET:
-            // Handle reset command
-            break;
-        // Add other control message handlers
-    }
+
+ uint8_t msgType = message.id & 0xFF;
 }
 
 void CANInterface::handleStatusRequest(const CANMessage_t& message) {
@@ -409,3 +391,4 @@ void CANInterface::updateStatistics() {
     // This could include calculating message rates, error rates, etc.
 
 }
+
