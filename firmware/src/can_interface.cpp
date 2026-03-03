@@ -70,7 +70,7 @@ bool CANInterface::sendMessage(const CANMessage_t& message) {
     CAN_message_t flexMsg;
     flexMsg.id = message.id;
     flexMsg.len = message.length;
-    flexMsg.flags.extended = 1;  // Use extended CAN ID format
+    flexMsg.flags.extended = 0;  // Use extended CAN ID format
     
     // Copy data payload
     for (uint8_t i = 0; i < message.length && i < 8; i++) {
@@ -407,4 +407,5 @@ void CANInterface::handleCANError() {
 void CANInterface::updateStatistics() {
     // Update communication statistics
     // This could include calculating message rates, error rates, etc.
+
 }
